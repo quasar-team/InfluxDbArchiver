@@ -23,6 +23,7 @@ namespace InfluxDbArchiver
 
 
 
+
 class ArchivedItem
 {
 
@@ -43,13 +44,18 @@ private:
 
 class InfluxDbArchiver: public GenericArchiver::GenericArchiver
 {
+public:
 
     InfluxDbArchiver(
             const std::string& db,
             const std::string& url = "http://localhost:8086"
                     );
 
+    void archiveAssignment ( const UaNodeId& objectAddress, const UaNodeId& variableAddress, OpcUa_UInt32 value, UaStatus statusCode  );
+
     void archivingThread ();
+
+    virtual void kill ();
 
 private:
     CURL* m_handle;
@@ -57,6 +63,7 @@ private:
     boost::mutex m_lock;
     boost::thread m_archiverThread;
     std::string m_url;
+    bool m_isRunning;
 
 };
 
