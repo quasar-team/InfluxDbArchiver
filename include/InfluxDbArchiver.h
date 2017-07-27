@@ -51,7 +51,10 @@ public:
             const std::string& url = "http://localhost:8086"
                     );
 
-    void archiveAssignment ( const UaNodeId& objectAddress, const UaNodeId& variableAddress, OpcUa_UInt32 value, UaStatus statusCode  );
+    virtual void archiveAssignment ( const UaNodeId& objectAddress, const UaNodeId& variableAddress, OpcUa_UInt32 value, UaStatus statusCode  );
+    virtual void archiveAssignment ( const UaNodeId& objectAddress, const UaNodeId& variableAddress, const UaString& value, UaStatus statusCode  );
+    virtual void archiveAssignment ( const UaNodeId& objectAddress, const UaNodeId& variableAddress, OpcUa_Float, UaStatus statusCode  );
+    virtual void archiveAssignment ( const UaNodeId& objectAddress, const UaNodeId& variableAddress, OpcUa_Double, UaStatus statusCode  );
 
     void archivingThread ();
 
