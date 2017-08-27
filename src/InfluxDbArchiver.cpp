@@ -14,6 +14,8 @@
 #include <LogIt.h>
 #include <ASUtils.h>
 
+#include <uavariant.h>
+
 namespace InfluxDbArchiver
 {
 
@@ -50,26 +52,16 @@ InfluxDbArchiver::InfluxDbArchiver(
         m_isRunning = true;
     }
 
-void InfluxDbArchiver::archiveAssignment ( const UaNodeId& objectAddress, const UaNodeId& variableAddress, OpcUa_UInt32 value, UaStatus statusCode  )
+void InfluxDbArchiver::archiveAssignment (
+        const UaNodeId& objectAddress,
+        const UaNodeId& variableAddress,
+        const std::string& variableName,
+        const UaVariant& value,
+        UaStatus statusCode  )
 {
     boost::lock_guard<decltype (m_lock)> lock (m_lock);
-    m_pendingItems.emplace_back( "value", variableAddress.toString().toUtf8(), boost::lexical_cast<std::string>(value) );
-}
+    m_pendingItems.emplace_back( "value", variableAddress.toString().toUtf8(), value.toString().toUtf8() );
 
-void InfluxDbArchiver::archiveAssignment ( const UaNodeId& objectAddress, const UaNodeId& variableAddress, const UaString& value, UaStatus statusCode  )
-{
-    boost::lock_guard<decltype (m_lock)> lock (m_lock);
-    m_pendingItems.emplace_back( "value", variableAddress.toString().toUtf8(), value.toUtf8() );
-}
-void InfluxDbArchiver::archiveAssignment ( const UaNodeId& objectAddress, const UaNodeId& variableAddress, OpcUa_Float value, UaStatus statusCode  )
-{
-    boost::lock_guard<decltype (m_lock)> lock (m_lock);
-    m_pendingItems.emplace_back( "value", variableAddress.toString().toUtf8(), boost::lexical_cast<std::string>(value) );
-}
-void InfluxDbArchiver::archiveAssignment ( const UaNodeId& objectAddress, const UaNodeId& variableAddress, OpcUa_Double value, UaStatus statusCode  )
-{
-    boost::lock_guard<decltype (m_lock)> lock (m_lock);
-    m_pendingItems.emplace_back( "value", variableAddress.toString().toUtf8(), boost::lexical_cast<std::string>(value) );
 }
 
 void InfluxDbArchiver::archivingThread ()
