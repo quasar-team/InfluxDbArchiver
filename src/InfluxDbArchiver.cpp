@@ -12,7 +12,7 @@
 #include <curl/curl.h>
 
 #include <LogIt.h>
-#include <ASUtils.h>
+// #include <ASUtils.h>
 
 #include <uavariant.h>
 
@@ -40,7 +40,7 @@ InfluxDbArchiver::InfluxDbArchiver(
 
         // singleton: let only one specific archiver in the system
         if (s_instance)
-            abort_with_message(__FILE__,__LINE__,"Trying to create more then one specific archiver objects. Can't - it's a singleton.");
+            throw std::logic_error("Trying to create more then one specific archiver objects. Can't - it's a singleton.");
 
         s_instance = this;
 

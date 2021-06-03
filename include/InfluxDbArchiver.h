@@ -63,6 +63,13 @@ public:
 
     virtual void kill ();
 
+    virtual UaStatus retrieveAssignment (
+        OpcUa::BaseVariableType*  variable,
+        OpcUa_DateTime            timeFrom,
+        OpcUa_DateTime            timeTo,
+        unsigned int              maxValues,
+        UaDataValues&             output ) { throw std::runtime_error("not-impl"); }
+
 private:
     CURL* m_handle;
     std::list<ArchivedItem> m_pendingItems;
